@@ -4,9 +4,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram, Transaction, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/Button';
+import { TransactionStatus } from '@/components/ui/TransactionStatus';
 
-type Status = 'idle' | 'sending' | 'confirmed' | 'failed';
+type Status = 'idle' | 'sending' | 'confirming' | 'logging' | 'confirmed' | 'failed';
 
 export default function ClientTipForm({ handle }: { handle: string }) {
     const { connection } = useConnection();
@@ -17,7 +19,6 @@ export default function ClientTipForm({ handle }: { handle: string }) {
     const [status, setStatus] = useState<Status>('idle');
     const [txSig, setTxSig] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-
     const [statusMessage, setStatusMessage] = useState<string>('');
 
     // Fetch SOL price from Binance
@@ -37,11 +38,7 @@ export default function ClientTipForm({ handle }: { handle: string }) {
     }, []);
 
     const [mounted, setMounted] = useState(false);
-
-    // Handle mounting for hydration
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    useEffect(() => setMounted(true), []);
 
     const usdValue = useMemo(() => {
         if (!amount || !solPrice) return '0.00';
@@ -75,40 +72,33 @@ export default function ClientTipForm({ handle }: { handle: string }) {
 
             const signature = await sendTransaction(transaction, connection);
             setTxSig(signature);
-            
+            setStatus('confirming');
             setStatusMessage('Waiting for confirmation...');
             
             const latestBlockhash = await connection.getLatestBlockhash();
-            await connection.confirmTransaction({
-                signature,
-                ...latestBlockhash,
-            }, 'processed');
+            await connection.confirmTransaction({ signature, ...latestBlockhash }, 'processed');
 
-            // POST to backend log
+            setStatus('logging');
+            setStatusMessage('Finalizing payment...');
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
-            try {
-                await fetch(`${apiUrl}/tip/log`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        tipper_wallet: publicKey.toBase58(),
-                        creator_x_handle: handle,
-                        amount_sol: parseFloat(amount),
-                        tx_sig_inbound: signature
-                    })
-                });
-            } catch (logErr) {
-                console.error('Failed to log tip to backend:', logErr);
-                // We don't fail the UI if the log fails, as the SOL is already sent
-            }
+            await fetch(`${apiUrl}/tip/log`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tipper_wallet: publicKey.toBase58(),
+                    creator_x_handle: handle,
+                    amount_sol: parseFloat(amount),
+                    tx_sig_inbound: signature
+                })
+            });
 
             setStatus('confirmed');
-            setStatusMessage('Tip sent successfully');
+            setStatusMessage('Payment Successful');
         } catch (err: any) {
             console.error('Transaction failed:', err);
             setError(err.message || 'Transaction failed');
             setStatus('failed');
-            setStatusMessage('Transaction failed');
+            setStatusMessage('Payment Failed');
         }
     };
 
@@ -116,118 +106,88 @@ export default function ClientTipForm({ handle }: { handle: string }) {
 
     return (
         <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="w-full max-w-md bg-white p-8 rounded-[2.5rem] border border-zinc-100 shadow-2xl shadow-zinc-200/50"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-lg bg-white p-8 md:p-12 rounded-[3.5rem] border border-zinc-100 shadow-2xl shadow-zinc-200/50"
         >
-            <div className="text-center mb-8">
-                <span className="text-sm font-bold text-secondary tracking-widest uppercase mb-2 block">Send Tip</span>
-                <h1 className="text-3xl font-black text-black">@{handle}</h1>
+            <div className="text-center mb-10">
+                <div className="w-20 h-20 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <span className="text-3xl">💸</span>
+                </div>
+                <h1 className="text-4xl font-black text-black tracking-tight italic uppercase">Tip @{handle}</h1>
+                <p className="text-zinc-400 font-bold text-xs uppercase tracking-widest mt-2">Support this creator instantly</p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
                 {/* Amount Input */}
-                <div>
-                    <label className="block text-sm font-semibold text-zinc-500 mb-2 ml-1">Amount in SOL</label>
+                <div className="space-y-3">
                     <div className="relative group">
                         <input 
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="0.00"
-                            className="w-full bg-zinc-50 border border-zinc-100 p-6 rounded-3xl text-2xl font-bold text-black focus:outline-hidden focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-zinc-300"
+                            className="w-full bg-zinc-50 border-2 border-zinc-100 p-8 rounded-[2.5rem] text-4xl font-black text-center text-black focus:outline-hidden focus:border-black transition-all placeholder:text-zinc-200"
                         />
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end">
-                            <span className="text-sm font-bold text-zinc-400">SOL</span>
-                            <span className="text-xs font-medium text-zinc-400 mt-0.5">${usdValue} USD</span>
+                        <div className="absolute right-8 top-1/2 -translate-y-1/2 font-black text-zinc-300 text-xl pointer-events-none group-focus-within:text-black transition-colors">
+                            SOL
                         </div>
+                    </div>
+                    <div className="flex justify-center gap-2">
+                        {quickAmounts.map((q) => (
+                            <button
+                                key={q}
+                                onClick={() => setAmount(q)}
+                                className="px-5 py-2 bg-white border border-zinc-100 rounded-full text-xs font-bold text-zinc-500 hover:border-black hover:text-black transition-all"
+                            >
+                                {q} SOL
+                            </button>
+                        ))}
+                    </div>
+                    <p className="text-center text-sm font-bold text-zinc-400">
+                        ≈ ${usdValue} USD
+                    </p>
+                </div>
+
+                {/* Dashboard Summary */}
+                <div className="bg-zinc-50 border border-zinc-100 p-6 rounded-3xl space-y-4">
+                    <div className="flex justify-between items-center text-sm font-bold">
+                        <span className="text-zinc-400 uppercase tracking-widest">Network Fee</span>
+                        <span className="text-black">~0.000005 SOL</span>
+                    </div>
+                    <div className="pt-4 border-t border-zinc-200 flex justify-between items-center">
+                        <span className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Total Pay</span>
+                        <span className="text-2xl font-black text-black">{amount || '0'} SOL</span>
                     </div>
                 </div>
 
-                {/* Quick Amounts */}
-                <div className="flex gap-2">
-                    {quickAmounts.map((q) => (
-                        <button
-                            key={q}
-                            onClick={() => setAmount(q)}
-                            className="flex-1 py-3 bg-zinc-50 border border-zinc-100 rounded-2xl text-sm font-bold text-zinc-600 hover:bg-black hover:text-white hover:border-black transition-all"
-                        >
-                            {q} SOL
-                        </button>
-                    ))}
-                </div>
-
                 {/* Action Button */}
-                <div className="pt-4">
+                <div className="space-y-6 pt-2">
                     {!mounted ? (
                         <div className="w-full h-14 bg-zinc-50 animate-pulse rounded-2xl" />
                     ) : !publicKey ? (
-                        <div className="flex justify-center">
-                            <WalletMultiButton className="w-full !justify-center !h-14 !rounded-2xl" />
+                        <div className="flex justify-center flex-col gap-4">
+                            <WalletMultiButton className="w-full !justify-center !h-14 !rounded-2xl !bg-black !transition-all hover:!opacity-80" />
+                            <p className="text-[10px] text-center text-zinc-400 font-bold uppercase tracking-widest">Connect wallet to send SOL</p>
                         </div>
                     ) : (
-                        <motion.button
-                            disabled={status === 'sending' || !amount}
+                        <Button 
                             onClick={handleSendTip}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full py-4 bg-black text-white rounded-2xl font-bold text-lg shadow-lg hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            isLoading={status === 'sending' || status === 'confirming' || status === 'logging'}
+                            disabled={!amount || parseFloat(amount) <= 0}
+                            className="w-full h-14 text-lg"
                         >
-                            {status === 'sending' ? 'Processing...' : `Send Tip to @${handle}`}
-                        </motion.button>
+                            Confirm Payment
+                        </Button>
                     )}
-                </div>
 
-                {/* Status Dashboard */}
-                <AnimatePresence mode="wait">
-                    {status !== 'idle' && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="overflow-hidden"
-                        >
-                            <div className={`mt-6 p-6 rounded-3xl border ${
-                                status === 'confirmed' ? 'bg-secondary/5 border-secondary/20' : 
-                                status === 'failed' ? 'bg-red-50 border-red-100' : 
-                                'bg-zinc-50 border-zinc-100'
-                            }`}>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-                                        {status === 'sending' && (
-                                            <div className="w-6 h-6 border-4 border-black/10 border-t-black rounded-full animate-spin" />
-                                        )}
-                                        {status === 'confirmed' && (
-                                            <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
-                                                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            </div>
-                                        )}
-                                        {status === 'failed' && (
-                                            <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                                                <span className="text-white font-bold">!</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-bold text-black capitalize">{statusMessage}</p>
-                                        {status === 'confirmed' && (
-                                            <a 
-                                                href={`https://solana.fm/tx/${txSig}?cluster=devnet-solana`} 
-                                                target="_blank" 
-                                                className="text-xs font-bold text-secondary hover:underline"
-                                            >
-                                                View on Explorer
-                                            </a>
-                                        )}
-                                        {status === 'failed' && <p className="text-xs text-red-500">{error}</p>}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    <TransactionStatus 
+                        status={status === 'confirmed' ? 'success' : status === 'failed' ? 'error' : (status === 'idle' ? 'idle' : 'processing')}
+                        message={statusMessage}
+                        txSig={txSig}
+                        error={error}
+                    />
+                </div>
             </div>
         </motion.div>
     );

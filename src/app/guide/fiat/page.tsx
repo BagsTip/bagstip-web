@@ -23,48 +23,60 @@ export default function FiatGuidePage() {
                             </p>
                         </header>
 
-                        <div className="grid grid-cols-1 gap-12">
-                            <section className="bg-zinc-50 border border-zinc-100 p-10 rounded-[2.5rem]">
-                                <h2 className="text-2xl font-bold text-black mb-6 flex items-center gap-4">
-                                    <span className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center text-sm">1</span>
-                                    Get an Account on an Exchange
+                        <div className="grid grid-cols-1 gap-8">
+                            <section className="bg-zinc-50 border border-zinc-100 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-black/5 rounded-full flex items-center justify-center text-4xl group-hover:scale-110 transition-transform">📱</div>
+                                <h2 className="text-xl font-black text-black mb-4 flex items-center gap-4">
+                                    <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold font-mono">01</span>
+                                    Download Coinbase or Kraken
                                 </h2>
-                                <p className="text-zinc-600 leading-relaxed mb-6">
-                                    To convert SOL to fiat (USD, EUR, etc.), you'll need an account on a major cryptocurrency exchange that supports withdrawals to a bank account. 
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    Go to the App Store or Google Play Store and download a trusted exchange like **Coinbase** or **Kraken**. These are the easiest platforms to turn your crypto into real money.
                                 </p>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {['Coinbase', 'Kraken', 'Binance', 'Bybit'].map((ex) => (
-                                        <div key={ex} className="p-4 bg-white border border-zinc-100 rounded-2xl text-center font-bold text-sm text-black">
-                                            {ex}
-                                        </div>
-                                    ))}
-                                </div>
                             </section>
 
-                            <section className="bg-zinc-50 border border-zinc-100 p-10 rounded-[2.5rem]">
-                                <h2 className="text-2xl font-bold text-black mb-6 flex items-center gap-4">
-                                    <span className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center text-sm">2</span>
+                            <section className="bg-zinc-50 border border-zinc-100 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-black/5 rounded-full flex items-center justify-center text-4xl group-hover:scale-110 transition-transform">🆔</div>
+                                <h2 className="text-xl font-black text-black mb-4 flex items-center gap-4">
+                                    <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold font-mono">02</span>
+                                    Verify Your Account
+                                </h2>
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    Sign up and complete the "Know Your Customer" (KYC) verification. You'll usually need to take a photo of your ID. This ensures your funds stay secure and legal.
+                                </p>
+                            </section>
+
+                            <section className="bg-zinc-50 border border-zinc-100 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-black/5 rounded-full flex items-center justify-center text-4xl group-hover:scale-110 transition-transform">💸</div>
+                                <h2 className="text-xl font-black text-black mb-4 flex items-center gap-4">
+                                    <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold font-mono">03</span>
                                     Send SOL to the Exchange
                                 </h2>
-                                <p className="text-zinc-600 leading-relaxed">
-                                    In your exchange account, find your **Solana (SOL) Deposit Address**. Copy this address carefully. Open your Solana wallet (e.g., Phantom), click **Send**, paste the exchange address, and transfer your claimed SOL.
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    In your new exchange app, find your **Solana (SOL) Deposit Address**. Open your Phantom wallet, click **Send**, paste that address, and transfer your SOL.
                                 </p>
                             </section>
 
-                            <section className="bg-zinc-50 border border-zinc-100 p-10 rounded-[2.5rem]">
-                                <h2 className="text-2xl font-bold text-black mb-6 flex items-center gap-4">
-                                    <span className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center text-sm">3</span>
-                                    Convert and Withdraw
-                                    <span className="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded-full uppercase tracking-widest font-black">Final Step</span>
+                            <section className="bg-zinc-50 border border-zinc-100 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-black/5 rounded-full flex items-center justify-center text-4xl group-hover:scale-110 transition-transform">💱</div>
+                                <h2 className="text-xl font-black text-black mb-4 flex items-center gap-4">
+                                    <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold font-mono">04</span>
+                                    Sell SOL for Your Currency
                                 </h2>
-                                <p className="text-zinc-600 leading-relaxed mb-6">
-                                    Once the SOL arrives at the exchange, use the **Convert** or **Sell** feature to change it into your local currency. From there, use the **Withdraw** option to send the funds to your linked bank account.
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    Once the SOL arrives in your exchange account, use the **"Sell"** button to convert it into your local currency (like USD or EUR).
                                 </p>
-                                <div className="p-6 bg-secondary/5 border border-secondary/20 rounded-3xl">
-                                    <p className="text-sm font-bold text-black italic">
-                                        Note: Withdrawals typically take 1-3 business days depending on your bank and exchange.
-                                    </p>
-                                </div>
+                            </section>
+
+                            <section className="bg-zinc-50 border border-zinc-100 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-black/5 rounded-full flex items-center justify-center text-4xl group-hover:scale-110 transition-transform">🏦</div>
+                                <h2 className="text-xl font-black text-black mb-4 flex items-center gap-4">
+                                    <span className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs font-bold font-mono">05</span>
+                                    Withdraw to Bank
+                                </h2>
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    The final step! Link your bank account to the exchange and click **Withdraw**. Your money will typically arrive in 1-3 business days.
+                                </p>
                             </section>
                         </div>
 

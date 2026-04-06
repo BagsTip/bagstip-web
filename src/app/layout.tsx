@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "Next generation Solana tipping platform",
 };
 
+import { ToastProvider } from '@/components/ui/ToastProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +32,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SolanaProvider>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </SolanaProvider>
       </body>
     </html>
