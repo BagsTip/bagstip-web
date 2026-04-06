@@ -53,16 +53,16 @@ export const Explainer = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-8 bg-white p-10 lg:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-md transition-all relative overflow-hidden group"
+                        className="lg:col-span-8 bg-white p-10 lg:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-md transition-all relative overflow-hidden group flex flex-col justify-between min-h-[340px]"
                     >
                         <div className="relative z-10 max-w-lg">
                             <span className="text-5xl font-extrabold text-slate-100 mb-6 block leading-none">01</span>
                             <h3 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Tip any @handle</h3>
-                            <p className="text-slate-500 leading-relaxed">Send Solana to any handle on X instantly. No wallet connection or setup needed for the creator whatsoever.</p>
+                            <p className="text-slate-500 leading-relaxed text-lg">Send Solana to any handle on X instantly. No wallet connection or setup needed for the creator whatsoever.</p>
                         </div>
                         {/* Decorative visual for wide card */}
-                        <div className="absolute right-0 bottom-0 translate-y-1/4 translate-x-1/4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <svg className="w-80 h-80 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div className="absolute right-0 bottom-0 translate-y-1/4 translate-x-1/4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
+                            <svg className="w-64 h-64 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                     </motion.div>
 
@@ -72,12 +72,14 @@ export const Explainer = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-4 bg-primary p-10 lg:p-12 rounded-[2.5rem] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all relative overflow-hidden group"
+                        className="lg:col-span-4 bg-primary p-10 lg:p-12 rounded-[2.5rem] shadow-[0_20px_40px_-15px_rgba(0,102,255,0.4)] transition-all relative overflow-hidden group flex flex-col justify-between min-h-[340px]"
                     >
-                        <div className="relative z-10 h-full flex flex-col justify-end">
-                            <span className="text-5xl font-extrabold text-white/20 mb-8 block leading-none">02</span>
-                            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Held in Vault</h3>
-                            <p className="text-blue-100 leading-relaxed text-sm">Your tip is secured in a decentralized vault. It waits safely until the recipient is ready.</p>
+                        <div className="relative z-10 h-full flex flex-col justify-between">
+                            <span className="text-5xl font-extrabold text-white/20 block leading-none">02</span>
+                            <div className="pt-12">
+                                <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Held in Vault</h3>
+                                <p className="text-blue-100 leading-relaxed text-base">Your tip is secured in a decentralized vault. It waits safely until the recipient is ready.</p>
+                            </div>
                         </div>
                     </motion.div>
 
