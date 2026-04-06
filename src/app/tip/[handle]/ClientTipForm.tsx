@@ -34,6 +34,13 @@ export default function ClientTipForm({ handle }: { handle: string }) {
         return () => clearInterval(interval);
     }, []);
 
+    const [mounted, setMounted] = useState(false);
+
+    // Handle mounting for hydration
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const usdValue = useMemo(() => {
         if (!amount || !solPrice) return '0.00';
         return (parseFloat(amount) * solPrice).toLocaleString(undefined, {
@@ -127,7 +134,7 @@ export default function ClientTipForm({ handle }: { handle: string }) {
 
                 {/* Action Button */}
                 <div className="pt-4">
-                    {!publicKey ? (
+                    {(!publicKey || !mounted) ? (
                         <div className="flex justify-center">
                             <WalletMultiButton className="w-full !justify-center !h-14 !rounded-2xl" />
                         </div>
