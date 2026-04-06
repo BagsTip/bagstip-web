@@ -18,11 +18,11 @@ export const Hero = () => {
     }, []);
 
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center pt-20 pb-32 px-6 overflow-hidden bg-white">
+        <section className="relative min-h-[75vh] flex items-center justify-center pt-24 pb-20 px-6 overflow-hidden bg-white">
             {/* 3D Abstract Background Atmosphere */}
             <GeometricProps />
 
-            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-20 items-center relative z-10">
+            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
                 
                 {/* Left Column: Text Content */}
                 <motion.div

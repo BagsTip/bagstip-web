@@ -3,6 +3,7 @@
 import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
+import { EcosystemMarquee } from '@/components/landing/EcosystemMarquee';
 import { Explainer } from '@/components/Explainer';
 import { FAQSection } from '@/components/FAQSection';
 import { Footer } from '@/components/Footer';
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        <EcosystemMarquee />
         <Explainer />
         <FAQSection />
       </main>

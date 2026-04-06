@@ -26,11 +26,11 @@ export const FAQSection = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     return (
-        <section className="py-32 px-6 bg-white relative">
+        <section className="py-20 px-6 bg-white relative">
             <div className="max-w-4xl mx-auto relative z-10">
-                <div className="flex flex-col items-center mb-20 text-center space-y-6">
+                <div className="flex flex-col items-center mb-12 text-center space-y-4">
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Got Questions?</span>
-                    <h2 className="text-5xl md:text-7xl font-black text-black tracking-tight italic uppercase italic">Common Concerns.</h2>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-black tracking-tight italic uppercase">Common Concerns.</h2>
                 </div>
 
                 <div className="space-y-6">
