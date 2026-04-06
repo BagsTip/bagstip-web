@@ -4,7 +4,6 @@ import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { Explainer } from '@/components/Explainer';
-import { VerifiedCreators } from '@/components/landing/VerifiedCreators';
 import { FAQSection } from '@/components/FAQSection';
 import { Footer } from '@/components/Footer';
 
@@ -14,7 +13,6 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <VerifiedCreators />
         <Explainer />
         <FAQSection />
       </main>
