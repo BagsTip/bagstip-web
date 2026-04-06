@@ -23,15 +23,23 @@ export const SolanaProvider = ({ children }: { children: React.ReactNode }) => {
 
     const wallets = useMemo(
         () => [
-            new PhantomWalletAdapter(),
+            // Standard wallets (Phantom, Solflare, etc.) are detected automatically
         ],
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [network]
+        []
     );
+
+    const onError = React.useCallback((error: any) => {
+        // Silently handle WalletNotReadyError to prevent console noise/crashes
+        if (error.name === 'WalletNotReadyError') {
+            console.warn('Wallet not ready yet. Please ensure your wallet extension is unlocked.');
+            return;
+        }
+        console.error('Wallet Error:', error);
+    }, []);
 
     return (
         <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
+            <WalletProvider wallets={wallets} autoConnect onError={onError}>
                 <WalletModalProvider>
                     {children}
                 </WalletModalProvider>
