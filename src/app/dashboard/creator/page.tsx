@@ -5,21 +5,23 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { XVerification } from '@/components/shared/XVerification';
-import { BalanceCard } from '@/components/tipper/BalanceCard';
-import { TipHistory } from '@/components/tipper/TipHistory';
-import { QuickTip } from '@/components/tipper/QuickTip';
-import { getTipperDashboard } from '@/lib/api';
-import { TipperDashboard } from '@/lib/types';
+import { PendingBalance } from '@/components/creator/PendingBalance';
+import { TipsReceivedTable } from '@/components/creator/TipsReceivedTable';
+import { BagsPromo } from '@/components/creator/BagsPromo';
+import { getCreatorDashboard } from '@/lib/api';
+import { CreatorDashboard } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function TipperDashboardPage() {
+export default function CreatorDashboardPage() {
     const { publicKey } = useWallet();
-    const [data, setData] = useState<TipperDashboard | null>(null);
+    const [data, setData] = useState<CreatorDashboard | null>(null);
     const [loading, setLoading] = useState(true);
 
     const refreshData = useCallback(async () => {
         if (publicKey) {
-            const dashboardData = await getTipperDashboard(publicKey.toBase58());
+            // In a real app, we might use the linked X handle from the user's profile
+            // For the mock, we'll use a sample handle
+            const dashboardData = await getCreatorDashboard('nevan');
             setData(dashboardData);
             setLoading(false);
         }
@@ -37,7 +39,7 @@ export default function TipperDashboardPage() {
                     <div className="text-center space-y-4">
                         <div className="text-4xl">🔒</div>
                         <h1 className="text-2xl font-bold">Please Connect Wallet</h1>
-                        <p className="text-zinc-500">Access your tipper dashboard to manage balances and history.</p>
+                        <p className="text-zinc-500">Access your creator dashboard to manage and claim your tips.</p>
                     </div>
                 </main>
                 <Footer />
@@ -54,9 +56,9 @@ export default function TipperDashboardPage() {
                         <div className="flex items-center gap-2 text-zinc-400 text-xs font-bold uppercase tracking-widest mb-2">
                             <a href="/dashboard" className="hover:text-black transition-colors">Dashboard</a>
                             <span>/</span>
-                            <span className="text-black">Tipper</span>
+                            <span className="text-black">Creator</span>
                         </div>
-                        <h1 className="text-4xl font-black text-black">Tipper Dashboard</h1>
+                        <h1 className="text-4xl font-black text-black tracking-tight">Creator Dashboard</h1>
                     </header>
 
                     <AnimatePresence mode="wait">
@@ -79,26 +81,34 @@ export default function TipperDashboardPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="space-y-8"
                             >
-                                {/* Top Row: Balance & Verification & Quick Tip */}
+                                {/* Top Row: Branding & Verification */}
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                                    <div className="lg:col-span-5">
-                                        <BalanceCard 
-                                            sol={data?.balance.sol ?? 0}
-                                            usd={data?.balance.usd ?? 0}
+                                    <div className="lg:col-span-7">
+                                        <PendingBalance 
+                                            sol={data?.pending_balance.sol ?? 0}
+                                            usd={data?.pending_balance.usd ?? 0}
+                                            verified={data?.profile.verified ?? false}
+                                            handle={data?.profile.x_handle ?? ''}
+                                            wallet={publicKey.toBase58()}
                                             onRefresh={refreshData}
                                         />
                                     </div>
-                                    <div className="lg:col-span-4">
-                                        <XVerification wallet={publicKey.toBase58()} />
-                                    </div>
-                                    <div className="lg:col-span-3">
-                                        <QuickTip />
+                                    <div className="lg:col-span-5">
+                                        <XVerification 
+                                            wallet={publicKey.toBase58()} 
+                                            onVerified={refreshData}
+                                        />
                                     </div>
                                 </div>
 
-                                {/* Bottom Row: History */}
+                                {/* History Row */}
                                 <div className="grid grid-cols-1">
-                                    <TipHistory tips={data?.tips_sent ?? []} />
+                                    <TipsReceivedTable tips={data?.tips_received ?? []} />
+                                </div>
+
+                                {/* Promo Row */}
+                                <div className="grid grid-cols-1 mt-12">
+                                    <BagsPromo />
                                 </div>
                             </motion.div>
                         )}
