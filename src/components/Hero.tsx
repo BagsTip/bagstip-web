@@ -7,6 +7,7 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 import { ReceiptVisual } from './ReceiptVisual';
 import { Button } from './ui/Button';
+import { GeometricProps } from './landing/GeometricProps';
 
 export const Hero = () => {
     const { publicKey } = useWallet();
@@ -17,43 +18,52 @@ export const Hero = () => {
     }, []);
 
     return (
-        <section className="relative min-h-[85vh] flex items-center justify-center py-24 px-6 overflow-hidden">
-            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <section className="relative min-h-[90vh] flex items-center justify-center pt-20 pb-32 px-6 overflow-hidden bg-white">
+            {/* 3D Abstract Background Atmosphere */}
+            <GeometricProps />
+
+            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-20 items-center relative z-10">
                 
                 {/* Left Column: Text Content */}
                 <motion.div
-                    initial={{ opacity: 0, x: -30 }}
+                    initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="lg:col-span-7 text-left space-y-10"
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="lg:col-span-7 text-left space-y-12"
                 >
-                    <div className="space-y-4">
-                        <motion.span 
-                            initial={{ opacity: 0, y: 10 }}
+                    <div className="space-y-6">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="inline-block px-4 py-1.5 bg-zinc-50 border border-zinc-100 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 italic italic"
+                            transition={{ delay: 0.2 }}
+                            className="inline-flex items-center gap-3 px-5 py-2 bg-zinc-50 border border-zinc-100 rounded-full"
                         >
-                            The Solana Tipping Protocol
-                        </motion.span>
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-black tracking-tight leading-[0.9] italic uppercase italic">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 italic">
+                                The Solana Tipping Protocol
+                            </span>
+                            <div className="flex items-center gap-1.5 border-l border-zinc-200 pl-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
+                            </div>
+                        </motion.div>
+                        <h1 className="text-6xl md:text-8xl font-black text-black tracking-tight leading-[0.9] italic uppercase">
                             Your Tip <br/>
-                            <span className="text-secondary">Waits</span> for them.
+                            <span className="text-primary italic">Waits</span> for them.
                         </h1>
                     </div>
                     
-                    <p className="text-lg md:text-xl text-zinc-500 max-w-2xl leading-relaxed font-medium">
-                        Send SOL to any handle on X instantly. If the creator isn't on Bags yet, your tip is secured in a vault until they join to claim it.
+                    <p className="text-xl md:text-2xl text-slate-500 max-w-2xl leading-relaxed font-medium">
+                        Send SOL to any handle on X instantly. If the creator isn't on Bags yet, your tip is secured in a vault <span className="text-black font-bold">until they join to claim it.</span>
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 pt-4">
                         {!mounted ? (
-                            <div className="w-full sm:w-[220px] h-15 bg-zinc-50 animate-pulse rounded-2xl" />
+                            <div className="w-full sm:w-[220px] h-14 bg-zinc-50 animate-pulse rounded-full" />
                         ) : (
                             <Button 
                                 href={publicKey ? "/tip/demo" : undefined}
                                 onClick={!publicKey ? () => document.querySelector('.wallet-adapter-button')?.dispatchEvent(new MouseEvent('click', {bubbles:true})) : undefined}
-                                className="w-full sm:w-[220px] h-15 text-lg shadow-2xl shadow-black/10"
+                                className="w-full sm:w-[220px] h-14 text-lg rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(0,102,255,0.3)] hover:shadow-[0_25px_50px_-12px_rgba(0,102,255,0.4)]"
                             >
                                 Start Tipping
                             </Button>
@@ -62,41 +72,38 @@ export const Hero = () => {
                         <Button 
                             variant="ghost"
                             href="/claim"
-                            className="w-full sm:w-[220px] h-15 text-lg border-2 border-zinc-100 hover:border-black"
+                            className="w-full sm:w-[220px] h-14 text-lg border-2 border-zinc-100 hover:border-black rounded-[2rem]"
                         >
                             Claim Your Tips
                         </Button>
                     </div>
 
-                    {/* Trust Indicators */}
-                    <div className="pt-10 flex flex-wrap gap-8 items-center border-t border-zinc-50 opacity-40 grayscale flex sm:flex-row flex-col">
-                        <div className="flex items-center gap-2">
-                             <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                             <span className="text-[10px] font-black uppercase tracking-widest text-black italic">SOLANA Mainnet-READY</span>
+                    {/* On-Chain Indicators */}
+                    <div className="pt-10 flex flex-wrap gap-10 items-center justify-start border-t border-zinc-50">
+                        <div className="flex items-center gap-3">
+                             <div className="w-2.5 h-2.5 rounded-full bg-secondary" />
+                             <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 italic">Solana Devnet</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                             <div className="w-2 h-2 rounded-full bg-green-500" />
-                             <span className="text-[10px] font-black uppercase tracking-widest text-black italic">SECURE VAULT ACTIVE</span>
+                        <div className="flex items-center gap-3">
+                             <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                             <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 italic">Secure Vault Protocol</span>
                         </div>
                     </div>
                 </motion.div>
 
                 {/* Right Column: Visual Section */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9, x: 30 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                    className="lg:col-span-5 hidden lg:block"
+                    initial={{ opacity: 0, scale: 0.9, rotate: 10, y: 50 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
+                    transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="lg:col-span-5 hidden lg:block relative"
                 >
-                    <ReceiptVisual />
+                    <div className="relative group">
+                         {/* Card Glow Effect */}
+                         <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full scale-75 group-hover:scale-95 transition-transform duration-1000" />
+                         <ReceiptVisual />
+                    </div>
                 </motion.div>
-            </div>
-
-            {/* Premium Background Atmosphere */}
-            <div className="absolute -z-10 top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-                <div className="absolute top-[10%] right-[10%] w-[40rem] h-[40rem] bg-secondary/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[20%] left-[5%] w-[30rem] h-[30rem] bg-primary/5 rounded-full blur-[100px]" />
-                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-center [mask-image:radial-gradient(white,transparent_85%)]" />
             </div>
         </section>
     );

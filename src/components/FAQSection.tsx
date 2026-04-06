@@ -26,29 +26,29 @@ export const FAQSection = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     return (
-        <section className="py-32 px-6 bg-white">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex flex-col items-center mb-16 text-center space-y-4">
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary italic">Got Questions?</span>
-                    <h2 className="text-4xl md:text-6xl font-black text-black tracking-tight italic uppercase italic">Common Concerns.</h2>
+        <section className="py-32 px-6 bg-white relative">
+            <div className="max-w-4xl mx-auto relative z-10">
+                <div className="flex flex-col items-center mb-20 text-center space-y-6">
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Got Questions?</span>
+                    <h2 className="text-5xl md:text-7xl font-black text-black tracking-tight italic uppercase italic">Common Concerns.</h2>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-6">
                     {faqs.map((faq, index) => (
                         <div 
                             key={index}
-                            className="bg-zinc-50 border border-zinc-100 rounded-3xl overflow-hidden"
+                            className="bg-white border border-zinc-100 rounded-[2.5rem] overflow-hidden shadow-soft hover:shadow-xl transition-all"
                         >
                             <button 
                                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                                className="w-full p-6 text-left flex justify-between items-center hover:bg-zinc-100 transition-colors"
+                                className="w-full p-8 text-left flex justify-between items-center hover:bg-zinc-50 transition-colors group"
                             >
-                                <span className="text-lg font-black text-black italic uppercase italic tracking-tight underline-offset-4 group-hover:underline">
+                                <span className="text-xl font-black text-black italic uppercase italic tracking-tight group-hover:text-primary transition-colors">
                                     {faq.question}
                                 </span>
                                 <motion.span 
                                     animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                                    className="text-zinc-400"
+                                    className="text-primary bg-primary/5 p-2 rounded-xl"
                                 >
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
@@ -61,9 +61,10 @@ export const FAQSection = () => {
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                                         className="overflow-hidden"
                                     >
-                                        <div className="px-6 pb-6 text-zinc-500 font-medium leading-relaxed prose prose-sm max-w-none">
+                                        <div className="px-8 pb-8 text-slate-500 font-medium leading-relaxed prose prose-sm max-w-none">
                                             {faq.answer}
                                         </div>
                                     </motion.div>
