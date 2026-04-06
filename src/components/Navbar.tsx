@@ -5,6 +5,12 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { motion } from 'framer-motion';
 
 export const Navbar = () => {
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <motion.nav 
             initial={{ y: -20, opacity: 0 }}
@@ -26,7 +32,7 @@ export const Navbar = () => {
                 >
                     Claim Tips
                 </a>
-                <WalletMultiButton />
+                {mounted && <WalletMultiButton />}
             </div>
         </motion.nav>
     );
