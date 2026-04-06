@@ -134,7 +134,9 @@ export default function ClientTipForm({ handle }: { handle: string }) {
 
                 {/* Action Button */}
                 <div className="pt-4">
-                    {(!publicKey || !mounted) ? (
+                    {!mounted ? (
+                        <div className="w-full h-14 bg-zinc-50 animate-pulse rounded-2xl" />
+                    ) : !publicKey ? (
                         <div className="flex justify-center">
                             <WalletMultiButton className="w-full !justify-center !h-14 !rounded-2xl" />
                         </div>
