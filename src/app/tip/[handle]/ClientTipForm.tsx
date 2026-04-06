@@ -18,6 +18,8 @@ export default function ClientTipForm({ handle }: { handle: string }) {
     const [txSig, setTxSig] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
+    const [statusMessage, setStatusMessage] = useState<string>('');
+
     // Fetch SOL price from Binance
     useEffect(() => {
         const fetchPrice = async () => {
@@ -53,6 +55,7 @@ export default function ClientTipForm({ handle }: { handle: string }) {
         if (!publicKey || !amount) return;
         
         setStatus('sending');
+        setStatusMessage('Sending transaction...');
         setError(null);
         
         try {
@@ -73,17 +76,39 @@ export default function ClientTipForm({ handle }: { handle: string }) {
             const signature = await sendTransaction(transaction, connection);
             setTxSig(signature);
             
+            setStatusMessage('Waiting for confirmation...');
+            
             const latestBlockhash = await connection.getLatestBlockhash();
             await connection.confirmTransaction({
                 signature,
                 ...latestBlockhash,
-            });
+            }, 'processed');
+
+            // POST to backend log
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+            try {
+                await fetch(`${apiUrl}/tip/log`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tipper_wallet: publicKey.toBase58(),
+                        creator_x_handle: handle,
+                        amount_sol: parseFloat(amount),
+                        tx_sig_inbound: signature
+                    })
+                });
+            } catch (logErr) {
+                console.error('Failed to log tip to backend:', logErr);
+                // We don't fail the UI if the log fails, as the SOL is already sent
+            }
 
             setStatus('confirmed');
+            setStatusMessage('Tip sent successfully');
         } catch (err: any) {
             console.error('Transaction failed:', err);
             setError(err.message || 'Transaction failed');
             setStatus('failed');
+            setStatusMessage('Transaction failed');
         }
     };
 
@@ -186,8 +211,7 @@ export default function ClientTipForm({ handle }: { handle: string }) {
                                         )}
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-sm font-bold text-black capitalize">{status}</p>
-                                        {status === 'sending' && <p className="text-xs text-zinc-500">Wait for confirmation...</p>}
+                                        <p className="text-sm font-bold text-black capitalize">{statusMessage}</p>
                                         {status === 'confirmed' && (
                                             <a 
                                                 href={`https://solana.fm/tx/${txSig}?cluster=devnet-solana`} 
