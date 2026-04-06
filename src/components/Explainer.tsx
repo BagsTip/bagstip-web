@@ -38,12 +38,12 @@ const steps = [
 
 export const Explainer = () => {
     return (
-        <section className="py-20 px-6 bg-zinc-50 border-y border-zinc-100 relative overflow-hidden">
+        <section className="py-24 px-6 bg-slate-50/50 border-y border-slate-100 relative overflow-hidden">
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="flex flex-col items-center mb-16 text-center max-w-2xl mx-auto space-y-4">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary italic">Seamless Protocol</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-black tracking-tight italic uppercase">How it works.</h2>
-                    <p className="text-slate-500 font-medium text-lg">BagsTip removes friction with an automated vault system.</p>
+                    <span className="text-xs font-semibold tracking-widest text-primary uppercase">Seamless Protocol</span>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">How it works.</h2>
+                    <p className="text-slate-500 text-lg">BagsTip removes friction with an automated vault system.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -53,16 +53,16 @@ export const Explainer = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-8 bg-white p-10 lg:p-14 rounded-[3rem] border border-zinc-100 shadow-soft hover:shadow-xl transition-all relative overflow-hidden group"
+                        className="lg:col-span-8 bg-white p-10 lg:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-md transition-all relative overflow-hidden group"
                     >
                         <div className="relative z-10 max-w-lg">
-                            <span className="text-6xl font-black text-black/5 mb-4 block leading-none">01</span>
-                            <h3 className="text-3xl font-black text-black mb-4 italic uppercase">Tip @handle</h3>
-                            <p className="text-slate-500 font-medium text-lg leading-relaxed">Send Solana to any handle on X instantly. No wallet connection or setup needed for the creator whatsoever.</p>
+                            <span className="text-5xl font-extrabold text-slate-100 mb-6 block leading-none">01</span>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Tip any @handle</h3>
+                            <p className="text-slate-500 leading-relaxed">Send Solana to any handle on X instantly. No wallet connection or setup needed for the creator whatsoever.</p>
                         </div>
                         {/* Decorative visual for wide card */}
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <svg className="w-96 h-96 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div className="absolute right-0 bottom-0 translate-y-1/4 translate-x-1/4 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <svg className="w-80 h-80 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                     </motion.div>
 
@@ -72,12 +72,12 @@ export const Explainer = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-4 bg-primary p-10 lg:p-14 rounded-[3rem] shadow-soft hover:shadow-xl transition-all relative overflow-hidden group"
+                        className="lg:col-span-4 bg-primary p-10 lg:p-12 rounded-[2.5rem] shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all relative overflow-hidden group"
                     >
-                        <div className="relative z-10">
-                            <span className="text-6xl font-black text-white/20 mb-4 block leading-none">02</span>
-                            <h3 className="text-3xl font-black text-white mb-4 italic uppercase">Held in<br/>Vault</h3>
-                            <p className="text-blue-100 font-medium leading-relaxed">Your tip is secured in a decentralized vault. It waits safely until the recipient is ready.</p>
+                        <div className="relative z-10 h-full flex flex-col justify-end">
+                            <span className="text-5xl font-extrabold text-white/20 mb-8 block leading-none">02</span>
+                            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Held in Vault</h3>
+                            <p className="text-blue-100 leading-relaxed text-sm">Your tip is secured in a decentralized vault. It waits safely until the recipient is ready.</p>
                         </div>
                     </motion.div>
 
@@ -87,19 +87,20 @@ export const Explainer = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-12 bg-white p-10 lg:p-14 rounded-[3rem] border border-zinc-100 shadow-soft hover:shadow-xl transition-all relative overflow-hidden group flex flex-col md:flex-row items-center gap-10"
+                        className="lg:col-span-12 bg-white p-10 lg:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-md transition-all relative overflow-hidden group flex flex-col md:flex-row items-center gap-12"
                     >
-                        <div className="flex-1 relative z-10">
-                            <span className="text-6xl font-black text-black/5 mb-4 block leading-none">03</span>
-                            <h3 className="text-3xl font-black text-black mb-4 italic uppercase">Creator Claims</h3>
-                            <p className="text-slate-500 font-medium text-lg leading-relaxed max-w-xl">The creator joins Bags, verifies their X identity using standard web2 OAuth, and claims their SOL instantly to their new or existing wallet.</p>
+                        <div className="flex-1 relative z-10 w-full">
+                            <span className="text-5xl font-extrabold text-slate-100 mb-6 block leading-none">03</span>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Creator Claims</h3>
+                            <p className="text-slate-500 leading-relaxed max-w-xl">The creator joins Bags, verifies their X identity using standard web2 OAuth, and claims their SOL instantly to their new or existing wallet.</p>
                         </div>
-                        <div className="shrink-0 w-full md:w-[400px] h-40 bg-zinc-50 rounded-[2rem] border border-zinc-100 flex items-center justify-center relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5 bg-center" />
-                            <div className="flex items-center gap-4 relative z-10">
-                                <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-white font-black italic">X</div>
-                                <div className="w-6 h-1 bg-zinc-200 rounded-full" />
-                                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg></div>
+                        <div className="shrink-0 w-full md:w-[350px] h-[140px] bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center relative shadow-inner">
+                            <div className="flex items-center gap-5 relative z-10">
+                                <div className="w-14 h-14 bg-slate-900 shadow-sm rounded-xl flex items-center justify-center text-white font-extrabold text-lg">X</div>
+                                <div className="w-8 h-px bg-slate-300" />
+                                <div className="w-14 h-14 bg-primary shadow-lg shadow-blue-500/30 rounded-xl flex items-center justify-center text-white">
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
