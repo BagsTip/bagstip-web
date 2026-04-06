@@ -29,9 +29,14 @@ export const SolanaProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     const onError = React.useCallback((error: any) => {
-        // Silently handle WalletNotReadyError to prevent console noise/crashes
+        // Silently handle common, expected wallet errors
+        const message = error.message || '';
         if (error.name === 'WalletNotReadyError') {
-            console.warn('Wallet not ready yet. Please ensure your wallet extension is unlocked.');
+            console.warn('Wallet not ready: Please ensure your wallet extension is unlocked.');
+            return;
+        }
+        if (message.includes('User rejected the request')) {
+            console.warn('Wallet Connection: User rejected the request.');
             return;
         }
         console.error('Wallet Error:', error);
