@@ -2,8 +2,11 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 export const Hero = () => {
+    const { publicKey } = useWallet();
     return (
         <section className="relative flex flex-col items-center justify-center py-24 px-6 text-center overflow-hidden">
             <motion.div
@@ -24,19 +27,26 @@ export const Hero = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="px-8 py-4 bg-black text-white rounded-full font-semibold text-lg shadow-xl shadow-zinc-200 hover:bg-zinc-800 transition-all w-full sm:w-auto"
-                    >
-                        Connect Wallet to Tip
-                    </motion.button>
+                    {!publicKey ? (
+                        <div className="w-full sm:w-auto">
+                            <WalletMultiButton className="!w-full !sm:w-[220px] !h-14 !rounded-full !bg-black !text-white !font-bold !shadow-xl !shadow-zinc-200" />
+                        </div>
+                    ) : (
+                        <motion.a
+                            href="/tip/demo"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="px-8 py-4 bg-black text-white rounded-full font-bold text-lg shadow-xl shadow-zinc-200 hover:bg-zinc-800 transition-all w-full sm:w-[220px]"
+                        >
+                            Start Tipping
+                        </motion.a>
+                    )}
                     
                     <motion.a
                         href="/claim"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-8 py-4 bg-white text-black border border-zinc-200 rounded-full font-semibold text-lg hover:bg-zinc-50 transition-all w-full sm:w-auto"
+                        className="px-8 py-4 bg-white text-black border border-zinc-200 rounded-full font-bold text-lg hover:bg-zinc-50 transition-all w-full sm:w-[220px]"
                     >
                         Claim Your Tips
                     </motion.a>
