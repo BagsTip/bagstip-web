@@ -53,13 +53,13 @@ const logos = [
 export const EcosystemMarquee = () => {
     return (
         <section className="py-12 border-b border-zinc-100 bg-white overflow-hidden flex flex-col items-center">
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 italic mb-6">Powered by true web3 infrastructure</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-6">Powered by true web3 infrastructure</span>
             <div className="w-full flex overflow-hidden mask-gradient-horizontal">
                 <div className="flex animate-marquee whitespace-nowrap min-w-full justify-around items-center gap-16 px-8">
                     {[...logos, ...logos, ...logos].map((logo, index) => (
                         <div key={index} className="flex items-center gap-3 shrink-0">
                             {logo.svg}
-                            <span className="text-xl font-black text-zinc-300 uppercase tracking-tight italic">{logo.name}</span>
+                            <span className="text-xl font-bold text-slate-300/80 tracking-tight">{logo.name}</span>
                         </div>
                     ))}
                 </div>
