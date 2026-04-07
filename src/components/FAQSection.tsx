@@ -30,7 +30,7 @@ export const FAQSection = () => {
             <div className="max-w-4xl mx-auto relative z-10">
                 <div className="flex flex-col items-center mb-16 text-center space-y-4">
                     <span className="text-xs font-semibold tracking-widest text-primary uppercase">Got Questions?</span>
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Common Concerns.</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500 tracking-tighter">Common Concerns.</h2>
                 </div>
 
                 <div className="space-y-4">

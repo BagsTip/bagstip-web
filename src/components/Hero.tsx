@@ -42,8 +42,8 @@ export const Hero = () => {
                                 The Solana Tipping Protocol
                             </span>
                         </motion.div>
-                        <h1 className="text-6xl lg:text-[5rem] font-extrabold text-slate-900 tracking-tight leading-[1.05]">
-                            Your tip <span className="text-primary">waits</span><br/> for them.
+                        <h1 className="text-6xl lg:text-[5rem] font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-500 tracking-tighter leading-[1.05]">
+                            Your tip <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">waits</span><br/> for them.
                         </h1>
                     </div>
                     

@@ -23,7 +23,7 @@ export const SolanaProvider = ({ children }: { children: React.ReactNode }) => {
 
     const wallets = useMemo(
         () => [
-            // Standard wallets (Phantom, Solflare, etc.) are detected automatically
+            new PhantomWalletAdapter(),
         ],
         []
     );
