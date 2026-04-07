@@ -21,9 +21,8 @@ export default function CreatorDashboardPage() {
 
     const refreshData = useCallback(async () => {
         if (publicKey) {
-            // In a real app, we might use the linked X handle from the user's profile
-            // For the mock, we'll use 'nevan' as the sample handle
-            const dashboardData = await getCreatorDashboard('nevan');
+            // Once the backend is integrated, we will pass the resolved X handle from the wallet
+            const dashboardData = await getCreatorDashboard('');
             setData(dashboardData);
             setLoading(false);
         }
